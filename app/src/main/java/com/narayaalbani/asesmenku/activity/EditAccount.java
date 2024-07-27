@@ -49,12 +49,12 @@ public class EditAccount extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        Cursor cursor = account.readAccount(intent.getStringExtra("USERNAME"));
+        Cursor cursor = account.readAccount(intent.getStringExtra("username"));
         if (cursor != null && cursor.moveToFirst()) {
-            usernameEditText.setText(cursor.getString(0));
-            passwordEditText.setText(cursor.getString(1));
-            namaEditText.setText(cursor.getString(2));
-            tglLahirEditText.setText(cursor.getString(3));
+            usernameEditText.setText(cursor.getString(1));
+            passwordEditText.setText(cursor.getString(2));
+            namaEditText.setText(cursor.getString(3));
+            tglLahirEditText.setText(cursor.getString(4));
             cursor.close();
         }
 

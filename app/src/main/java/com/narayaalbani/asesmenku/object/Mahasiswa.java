@@ -13,14 +13,13 @@ import java.util.List;
 public class Mahasiswa extends DatabaseHelper {
     private SQLiteDatabase db;
 
-    private static final String COL_ID_MHS = "id_mhs";
     private static final String COL_NIM = "nim";
     private static final String COL_NAMA_MHS = "nama";
     private static final String COL_TGL_LAHIR_MHS = "tgl_lahir";
     private static final String COL_JNS_KELAMIN = "jns_kelamin";
     private static final String COL_ALAMAT = "alamat";
 
-    private String idMhs, nim, nama, tglLahir, kelamin, alamat;
+    private String nim, nama, tglLahir, kelamin, alamat;
 
     public Mahasiswa(Context context) {
         super(context);
@@ -64,20 +63,16 @@ public class Mahasiswa extends DatabaseHelper {
     }
 
     public boolean updateMhs() {
-        if (checkMhs()) {
-            db = this.getWritableDatabase();
-            ContentValues cv = new ContentValues();
-            cv.put(COL_NIM, getNim());
-            cv.put(COL_NAMA_MHS, getNama());
-            cv.put(COL_TGL_LAHIR_MHS, getTglLahir());
-            cv.put(COL_JNS_KELAMIN, getKelamin());
-            cv.put(COL_ALAMAT, getAlamat());
-            int result = db.update(getTableMhs(), cv, COL_NIM + " = ?", new String[]{getNim()});
-            db.close();
-            return result > 0;
-        } else {
-            return false;
-        }
+        db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COL_NIM, getNim());
+        cv.put(COL_NAMA_MHS, getNama());
+        cv.put(COL_TGL_LAHIR_MHS, getTglLahir());
+        cv.put(COL_JNS_KELAMIN, getKelamin());
+        cv.put(COL_ALAMAT, getAlamat());
+        int result = db.update(getTableMhs(), cv, COL_NIM + " = ?", new String[]{getNim()});
+        db.close();
+        return result >= 0;
     }
 
     private boolean checkMhs() {
@@ -87,14 +82,6 @@ public class Mahasiswa extends DatabaseHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return !exists;
-    }
-
-    public String getIdMhs() {
-        return idMhs;
-    }
-
-    public void setIdMhs(String idMhs) {
-        this.idMhs = idMhs;
     }
 
     public String getNim() {

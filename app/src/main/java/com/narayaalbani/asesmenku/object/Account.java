@@ -11,13 +11,12 @@ public class Account extends DatabaseHelper {
     private SQLiteDatabase db;
     private Cursor cursor;
 
-    private static final String COL_ID_ACCOUNT = "id_account";
     private static final String COL_USER = "username";
     private static final String COL_PASS = "password";
     private static final String COL_NAMA_ACCOUNT = "nama";
     private static final String COL_TGL_LAHIR_ACCOUNT = "tgl_lahir";
 
-    private String id_account, username, password, nama, tglLahir;
+    private String username, password, nama, tglLahir;
 
     public Account(Context context) {
         super(context);
@@ -50,20 +49,9 @@ public class Account extends DatabaseHelper {
         cv.put(COL_PASS, getPassword());
         cv.put(COL_NAMA_ACCOUNT, getNama());
         cv.put(COL_TGL_LAHIR_ACCOUNT, getTglLahir());
-        int result = db.update(getTableAccount(), cv, COL_ID_ACCOUNT + "=?", new String[]{getId_account()});
+        int result = db.update(getTableAccount(), cv, COL_USER + "=?", new String[]{getUsername()});
         db.close();
-        return result > 0;
-
-//        db = this.getWritableDatabase();
-//        String sql = "UPDATE " + getTableAccount() + " SET " +
-//                COL_USER + " = ?, " +
-//                COL_PASS + " = ?, " +
-//                COL_NAMA_ACCOUNT + " = ?, " +
-//                COL_TGL_LAHIR_ACCOUNT + " = ? WHERE " +
-//                COL_USER + " = ? AND NOT EXISTS " +
-//                "(SELECT 1 FROM " + getTableAccount() + " WHERE " + COL_USER + " = ? AND " + COL_USER + " != ?)";
-//        cursor = db.rawQuery(sql, new String[]{getUsername(), getPassword(), getNama(), getTglLahir(), username, getUsername(), username});
-//        return cursor.getCount() > 0;
+        return result >= 0;
     }
 
     public boolean checkLogin() {
@@ -91,14 +79,6 @@ public class Account extends DatabaseHelper {
         cursor.close();
         db.close();
         return result;
-    }
-
-    public String getId_account() {
-        return id_account;
-    }
-
-    public void setId_account(String id_account) {
-        this.id_account = id_account;
     }
 
     public String getUsername() {
