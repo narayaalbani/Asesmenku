@@ -6,4 +6,9 @@
         android:title="Info"
         android:icon="@drawable/baseline_info_outline_24"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/logout"
+        android:title="Logout"
+        android:icon="@drawable/baseline_logout_24"
+        app:showAsAction="ifRoom" />
 </menu>

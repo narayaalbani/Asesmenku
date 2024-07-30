@@ -31,19 +31,19 @@ public class Login extends AppCompatActivity {
             account.setUsername(Objects.requireNonNull(usernameText.getText()).toString());
             account.setPassword(Objects.requireNonNull(passwordText.getText()).toString());
             if(account.checkLogin()) {
-                Intent intent = new Intent(this, Dashboard.class);
-                intent.putExtra("username", usernameText.getText().toString());
-                startActivity(intent);
+                getSharedPreferences("loginPrefs", MODE_PRIVATE)
+                        .edit()
+                        .putBoolean("isLoggedIn", true)
+                        .putString("usernameLoggedIn", usernameText.getText().toString())
+                        .apply();
+                startActivity(new Intent(this, Dashboard.class));
             } else {
                 Toast.makeText(Login.this, "Username atau password salah.", Toast.LENGTH_SHORT).show();
             }
         });
 
         TextView toRegister = findViewById(R.id.register_hyperlink);
-        toRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Register.class);
-            intent.putExtra("FIRST", true);
-            startActivity(intent);
-        });
+        toRegister.setOnClickListener(v -> startActivity(new Intent(this, Register.class)
+                .putExtra("FIRST", true)));
     }
 }

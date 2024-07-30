@@ -54,6 +54,12 @@ public class Account extends DatabaseHelper {
         return result >= 0;
     }
 
+    public void deleteAccount(String username) {
+        db = this.getWritableDatabase();
+        db.delete(getTableAccount(),  COL_USER + " = ?", new String[]{username});
+        db.close();
+    }
+
     public boolean checkLogin() {
         db = this.getReadableDatabase();
         cursor = db.rawQuery("SELECT * FROM " + getTableAccount() + " WHERE " +

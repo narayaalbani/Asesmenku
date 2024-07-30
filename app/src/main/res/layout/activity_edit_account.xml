@@ -92,6 +92,16 @@
             android:text="Edit"
             android:textColor="@color/white" />
 
+        <Button
+            android:id="@+id/delete_account_button"
+            style="@style/Widget.Material3.Button.ElevatedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/red"
+            android:text="Hapus"
+            android:textColor="@color/white" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

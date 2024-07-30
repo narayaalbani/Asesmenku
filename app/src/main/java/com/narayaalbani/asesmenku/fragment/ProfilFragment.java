@@ -46,11 +46,10 @@ public class ProfilFragment extends Fragment {
         }
 
         Button editButton = view.findViewById(R.id.edit_profil);
-        editButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), EditAccount.class);
-            intent.putExtra("username", requireArguments().getString("ARGS_USERNAME"));
-            requireActivity().startActivity(intent);
-        });
+        editButton.setOnClickListener(v -> requireActivity()
+                .startActivity(new Intent(getActivity(), EditAccount.class)
+                .putExtra("username", requireArguments().getString("ARGS_USERNAME")))
+        );
 
         return view;
     }

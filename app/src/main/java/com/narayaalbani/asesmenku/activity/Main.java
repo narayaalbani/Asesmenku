@@ -17,12 +17,20 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (account.isUserRegistered()) {
-            startActivity(new Intent(this, Login.class));
+            if (isLoggedIn()) {
+                startActivity(new Intent(this, Dashboard.class));
+            } else {
+                startActivity(new Intent(this, Login.class));
+            }
         } else {
-            Intent intent = new Intent(this, Register.class);
-            intent.putExtra("FIRST", false);
-            startActivity(intent);
+            startActivity(new Intent(this, Register.class)
+                    .putExtra("FIRST", false));
         }
         finish();
+    }
+
+    private boolean isLoggedIn() {
+        return getSharedPreferences("loginPrefs", MODE_PRIVATE)
+                .getBoolean("isLoggedIn", false);
     }
 }

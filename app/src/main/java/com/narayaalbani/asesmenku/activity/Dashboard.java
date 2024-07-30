@@ -1,5 +1,6 @@
 package com.narayaalbani.asesmenku.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +20,8 @@ import com.narayaalbani.asesmenku.fragment.ProfilFragment;
 import java.util.Objects;
 
 public class Dashboard extends AppCompatActivity {
+    private int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,7 @@ public class Dashboard extends AppCompatActivity {
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
+            id = item.getItemId();
             if (id == R.id.beranda_navbar) {
                 replaceFragment(new BerandaFragment(this));
                 Objects.requireNonNull(getSupportActionBar()).setTitle("Asesmenku");
@@ -40,7 +43,9 @@ public class Dashboard extends AppCompatActivity {
                 Objects.requireNonNull(getSupportActionBar()).setTitle("Input");
                 return true;
             } else if (id == R.id.profil_navbar) {
-                ProfilFragment profilFragment = ProfilFragment.newInstance(getIntent().getStringExtra("username"));
+                ProfilFragment profilFragment = ProfilFragment.newInstance(
+                        getSharedPreferences("loginPrefs", MODE_PRIVATE)
+                        .getString("usernameLoggedIn", null));
                 replaceFragment(profilFragment);
                 Objects.requireNonNull(getSupportActionBar()).setTitle("Profil");
                 return true;
@@ -57,9 +62,24 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
+        id = item.getItemId();
         if (id == R.id.info) {
             startActivity(new Intent(this, Informasi.class));
+        } else if (id == R.id.logout) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Konfirmasi Logout")
+                    .setMessage("Apakah Anda yakin ingin logout akun ini?")
+                    .setPositiveButton("Ya", (dialog, which) -> {
+                        getSharedPreferences("loginPrefs", MODE_PRIVATE)
+                                .edit()
+                                .putBoolean("isLoggedIn", false)
+                                .apply();
+                        startActivity(new Intent(this, Login.class));
+                        finish();
+                    })
+                    .setNegativeButton("Tidak", null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
         return true;
     }
