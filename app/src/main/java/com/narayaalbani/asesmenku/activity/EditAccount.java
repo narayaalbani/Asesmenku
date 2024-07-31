@@ -84,16 +84,16 @@ public class EditAccount extends AppCompatActivity {
         Button hapusButton = findViewById(R.id.delete_account_button);
         hapusButton.setOnClickListener(v -> new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi Hapus")
-                .setMessage("Apakah Anda yakin ingin menghapus akun ini?")
+                .setMessage("Apakah Anda yakin ingin menghapus akun ini dan logout dari aplikasi?")
                 .setPositiveButton("Ya", (dialog, which) -> {
-                    if (!account.getUsername().isEmpty()) {
-                        account.deleteAccount(getIntent().getStringExtra("username"));
-                        startActivity(new Intent(this, Login.class));
-                        Toast.makeText(this, "Akun berhasil dihapus.", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Gagal menghapus akun.", Toast.LENGTH_SHORT).show();
-                    }
+                    account.deleteAccount(getIntent().getStringExtra("username"));
+                    getSharedPreferences("loginPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putBoolean("isLoggedIn", false)
+                            .apply();
+                    startActivity(new Intent(this, Login.class));
+                    Toast.makeText(this, "Akun berhasil dihapus.", Toast.LENGTH_SHORT).show();
+                    finish();
                 })
                 .setNegativeButton("Tidak", null)
                 .setIcon(android.R.drawable.ic_dialog_alert)

@@ -56,7 +56,7 @@ public class Account extends DatabaseHelper {
 
     public void deleteAccount(String username) {
         db = this.getWritableDatabase();
-        db.delete(getTableAccount(),  COL_USER + " = ?", new String[]{username});
+        db.delete(getTableAccount(),COL_USER + " = ?", new String[]{username});
         db.close();
     }
 
